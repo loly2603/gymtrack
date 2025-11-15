@@ -3,7 +3,7 @@ import '../screens/dashboard_screen.dart';
 import '../screens/workouts_screen.dart';
 import '../screens/progress_screen.dart';
 import '../screens/profile_screen.dart';
-import '../screens/placeholder_screen.dart';
+import '../screens/goals_screen.dart';
 
 class MainScaffold extends StatefulWidget {
   final int initialIndex;
@@ -25,11 +25,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       const DashboardScreen(),
       const WorkoutsScreen(),
       const ProgressScreen(),
-      const PlaceholderScreen(
-        title: 'Objetivos',
-        description: 'Establece y realiza un seguimiento de tus objetivos fitness. Monitorea tu progreso.',
-        icon: Icons.track_changes,
-      ),
+      const GoalsScreen(),
       const ProfileScreen(),
     ];
   }

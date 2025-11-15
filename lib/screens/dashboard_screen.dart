@@ -80,6 +80,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     final chartData = recent.map<double>(_extractVolume).toList();
 
+    // Fake data para mostrar gráfico si no hay datos reales
+    final displayData = chartData.isEmpty
+      ? [100.0, 150.0, 120.0, 180.0, 160.0, 200.0, 190.0]
+      : chartData;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
@@ -209,24 +214,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.lightText),
                   ),
                   const SizedBox(height: 16),
-                  Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: AppTheme.darkBackground,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppTheme.darkBorder),
-                    ),
-                    child: chartData.isEmpty
-                        ? Center(
-                      child: Text(
-                        'Sin datos disponibles',
-                        style: TextStyle(color: AppTheme.mutedText),
-                      ),
-                    )
-                        : CustomPaint(
-                      painter: MiniChartPainter(
-                        data: chartData,
-                        maxValue: chartData.isEmpty ? 1.0 : chartData.reduce((a, b) => a > b ? a : b) * 1.1,
+                  ClipRect(
+                    child: SizedBox(
+                      height: 150,
+                      width: double.infinity,
+                      child: CustomPaint(
+                        painter: MiniChartPainter(
+                          data: displayData,
+                          maxValue: displayData.reduce((a, b) => a > b ? a : b) * 1.1,
+                        ),
+                        size: const Size(double.infinity, 150),
                       ),
                     ),
                   ),
@@ -447,52 +444,81 @@ class MiniChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (data.isEmpty || maxValue == 0) return;
+    print('MiniChartPainter PAINT: data.length=${data.length}, maxValue=$maxValue, size=${size.width}x${size.height}');
 
-    final paint = Paint()
-      ..color = AppTheme.neonYellow
-      ..strokeWidth = 2
+    // Fondo claro
+    final background = Paint()
+      ..color = Colors.white.withOpacity(0.08)
+      ..style = PaintingStyle.fill;
+    canvas.drawRect(Offset.zero & size, background);
+
+    // Si no hay datos, dibuja "Sin datos" y RETORNA
+    if (data.isEmpty) {
+      print('❌ data está vacío');
+      final textPainter = TextPainter(
+        text: const TextSpan(
+          text: 'Sin datos',
+          style: TextStyle(color: Colors.white, fontSize: 14),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      textPainter.paint(
+        canvas,
+        Offset((size.width - textPainter.width) / 2,
+               (size.height - textPainter.height) / 2),
+      );
+      return;
+    }
+
+    // Si maxValue es inválido, retorna
+    if (maxValue <= 0) {
+      print('❌ maxValue=$maxValue es <= 0');
+      return;
+    }
+
+    print('✅ Dibujando gráfica con ${data.length} puntos');
+
+    final linePaint = Paint()
+      ..color = Colors.cyanAccent
+      ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
 
-    final fillPaint = Paint()
-      ..color = AppTheme.neonYellow.withValues(alpha: 0.1)
+    final pointPaint = Paint()
+      ..color = Colors.orangeAccent
       ..style = PaintingStyle.fill;
 
+    const padding = 15.0;
+    final chartWidth = size.width - padding * 2;
+    final chartHeight = size.height - padding * 2;
+
+    print('chartWidth=$chartWidth, chartHeight=$chartHeight');
+
+    if (chartWidth <= 0 || chartHeight <= 0) {
+      print('❌ Dimensiones inválidas');
+      return;
+    }
+
+    final stepX = data.length > 1 ? chartWidth / (data.length - 1) : chartWidth / 2;
+
     final path = Path();
-    final fillPath = Path();
-
-    final stepX = size.width / (data.length - 1);
-    final padding = 20.0;
-
     for (int i = 0; i < data.length; i++) {
-      final x = i * stepX;
-      final y = size.height - padding - ((data[i] / maxValue) * (size.height - 2 * padding));
+      final x = padding + i * stepX;
+      final normalized = (data[i] / maxValue).clamp(0.0, 1.0);
+      final y = padding + (1 - normalized) * chartHeight;
+
+      print('Punto $i: ($x, $y) valor=${data[i]}');
 
       if (i == 0) {
         path.moveTo(x, y);
-        fillPath.moveTo(x, size.height - padding);
-        fillPath.lineTo(x, y);
       } else {
         path.lineTo(x, y);
-        fillPath.lineTo(x, y);
       }
+
+      canvas.drawCircle(Offset(x, y), 5, pointPaint);
     }
 
-    fillPath.lineTo(size.width, size.height - padding);
-    fillPath.close();
-
-    canvas.drawPath(fillPath, fillPaint);
-    canvas.drawPath(path, paint);
-
-    final pointPaint = Paint()
-      ..color = AppTheme.neonYellow
-      ..style = PaintingStyle.fill;
-
-    for (int i = 0; i < data.length; i++) {
-      final x = i * stepX;
-      final y = size.height - padding - ((data[i] / maxValue) * (size.height - 2 * padding));
-      canvas.drawCircle(Offset(x, y), 3, pointPaint);
-    }
+    canvas.drawPath(path, linePaint);
+    print('✅ Gráfica dibujada exitosamente');
   }
 
   @override

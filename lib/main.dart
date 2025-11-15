@@ -6,6 +6,7 @@ import 'screens/login_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/forgot_password_screen.dart';
 import 'screens/register_screen.dart';
+import 'screens/goals_screen.dart';
 
 void main() {
   runApp(const MyApp());
