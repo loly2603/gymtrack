@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'admin_new_user_screen.dart';
+import 'admin_users_list_screen.dart';
+import 'admin_schedule_screen.dart';
+import 'admin_reports_screen.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -147,8 +151,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   icon: Icons.person_add,
                   title: 'Nuevo Usuario',
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Agregar nuevo usuario')),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AdminNewUserScreen()),
                     );
                   },
                 ),
@@ -156,8 +161,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   icon: Icons.group,
                   title: 'Ver Usuarios',
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Lista de usuarios')),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AdminUsersListScreen()),
                     );
                   },
                 ),
@@ -165,8 +171,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   icon: Icons.calendar_today,
                   title: 'Horarios',
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Gestionar horarios')),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AdminScheduleScreen()),
                     );
                   },
                 ),
@@ -174,8 +181,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   icon: Icons.bar_chart,
                   title: 'Reportes',
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Ver reportes')),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AdminReportsScreen()),
                     );
                   },
                 ),
