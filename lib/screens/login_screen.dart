@@ -186,12 +186,74 @@ class _LoginScreenState extends State<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  'Usuario: user@gymtrack.com / user123\n'
-                  'Instructor: instructor@gymtrack.com / instructor123\n'
-                  'Admin: admin@gymtrack.com / admin123',
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.center,
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            _emailController.text = 'user@gymtrack.com';
+                            _passwordController.text = 'user123';
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.secondary.withAlpha(204),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          foregroundColor: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        child: const Text('Usuario'),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            _emailController.text = 'instructor@gymtrack.com';
+                            _passwordController.text = 'instructor123';
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.secondary.withAlpha(204),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          foregroundColor: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        child: const Text('Instructor'),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            _emailController.text = 'admin@gymtrack.com';
+                            _passwordController.text = 'admin123';
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.secondary.withAlpha(204),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          foregroundColor: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        child: const Text('Admin'),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -201,4 +263,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
