@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'welcome_screen.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -43,11 +42,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushNamedAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
-                          ),
+                          '/login',
                           (route) => false,
                         );
                       },
@@ -264,9 +261,9 @@ class _AdminStatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withAlpha((0.1 * 255).round()),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withAlpha((0.3 * 255).round())),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -386,7 +383,7 @@ class _UserCard extends StatelessWidget {
         trailing: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: isActive ? Colors.green.withOpacity(0.2) : Colors.grey.withOpacity(0.2),
+            color: isActive ? Colors.green.withAlpha((0.2 * 255).round()) : Colors.grey.withAlpha((0.2 * 255).round()),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
@@ -402,4 +399,3 @@ class _UserCard extends StatelessWidget {
     );
   }
 }
-

@@ -7,6 +7,8 @@ import 'screens/progress_screen.dart';
 import 'screens/workouts_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/welcome_screen.dart';
+import 'screens/forgot_password_screen.dart';
+import 'screens/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +26,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const DashboardScreen(),
         '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/welcome': (context) => const WelcomeScreen(),
         '/dashboard': (context) => const DashboardScreen(),
         '/workouts': (context) => const WorkoutsScreen(),

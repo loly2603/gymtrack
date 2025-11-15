@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'welcome_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -154,11 +152,9 @@ class ProfileScreen extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          Navigator.pushAndRemoveUntil(
+                          Navigator.pushNamedAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const WelcomeScreen(),
-                            ),
+                            '/login',
                             (route) => false,
                           );
                         },
@@ -244,4 +240,3 @@ class _ProfileOption extends StatelessWidget {
     );
   }
 }
-

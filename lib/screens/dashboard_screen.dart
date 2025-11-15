@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
 import '../services/workout_service.dart';
-import '../services/achievement_service.dart';
 import '../models/workout_model.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -15,14 +14,12 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   late AuthService _authService;
   late WorkoutService _workoutService;
-  late AchievementService _achievementService;
 
   @override
   void initState() {
     super.initState();
     _authService = AuthService();
     _workoutService = WorkoutService();
-    _achievementService = AchievementService();
   }
 
 
@@ -47,21 +44,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final user = _authService.currentUser;
     if (user == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacementNamed('/login');
+        Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
       });
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
-    final String uid;
-    if (user.id is int) {
-      uid = (user.id as int).toString();
-    } else if (user.id is String) {
-      uid = user.id as String;
-    } else {
-      uid = '0';
-    }
+    final String uid = user.id;
 
     final workouts = _workoutService.getWorkouts(uid);
     final Map<String, dynamic>? stats = _workoutService.getStats();
@@ -126,7 +116,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     backgroundColor: AppTheme.neonYellow,
                     radius: 28,
                     child: Text(
-                      (user.name != null && user.name!.isNotEmpty) ? user.name![0].toUpperCase() : 'U',
+                      (user.name.isNotEmpty) ? user.name[0].toUpperCase() : 'U',
                       style: const TextStyle(fontSize: 24, color: AppTheme.darkBackground, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -136,7 +126,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '¡Hola, ${user.name ?? 'Usuario'}!',
+                          '¡Hola, ${user.name}!',
                           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.lightText),
                         ),
                         const SizedBox(height: 4),
@@ -508,4 +498,3 @@ class MiniChartPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
-

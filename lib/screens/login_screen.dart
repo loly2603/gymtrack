@@ -166,16 +166,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                 ),
                 const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    // Implementar registro
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Función de registro próximamente'),
-                      ),
-                    );
-                  },
-                  child: const Text('¿No tienes cuenta? Regístrate'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/forgot-password');
+                      },
+                      child: const Text('¿Olvidaste tu contraseña?'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/register');
+                      },
+                      child: const Text('Regístrate'),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 24),
                 const Divider(),
