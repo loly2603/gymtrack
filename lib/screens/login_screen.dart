@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'main_navigation_screen.dart';
-import 'admin_dashboard_screen.dart';
 import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -48,19 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // Navegar según el rol del usuario
         if (user?.role == 'admin') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AdminDashboardScreen(),
-            ),
-          );
+          Navigator.pushReplacementNamed(context, '/admin');
         } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const MainNavigationScreen(),
-            ),
-          );
+          Navigator.pushReplacementNamed(context, '/');
         }
       } else {
         // Mostrar error de autenticación

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'theme/app_theme.dart';
-import 'screens/dashboard_screen.dart';
+import 'widgets/main_scaffold.dart';
+import 'widgets/admin_main_scaffold.dart';
 import 'screens/login_screen.dart';
-import 'screens/placeholder_screen.dart';
-import 'screens/progress_screen.dart';
-import 'screens/workouts_screen.dart';
-import 'screens/profile_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/forgot_password_screen.dart';
 import 'screens/register_screen.dart';
@@ -24,20 +21,20 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.darkTheme,
       initialRoute: '/login',
       routes: {
-        '/': (context) => const DashboardScreen(),
+        '/': (context) => const MainScaffold(initialIndex: 0),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/welcome': (context) => const WelcomeScreen(),
-        '/dashboard': (context) => const DashboardScreen(),
-        '/workouts': (context) => const WorkoutsScreen(),
-        '/progress': (context) => const ProgressScreen(),
-        '/goals': (context) => const PlaceholderScreen(
-          title: 'Objetivos',
-          description: 'Establece y realiza un seguimiento de tus objetivos fitness. Monitorea tu progreso.',
-          icon: Icons.track_changes,
-        ),
-        '/profile': (context) => const ProfileScreen(),
+        '/dashboard': (context) => const MainScaffold(initialIndex: 0),
+        '/workouts': (context) => const MainScaffold(initialIndex: 1),
+        '/progress': (context) => const MainScaffold(initialIndex: 2),
+        '/goals': (context) => const MainScaffold(initialIndex: 3),
+        '/profile': (context) => const MainScaffold(initialIndex: 4),
+        '/admin': (context) => const AdminMainScaffold(initialIndex: 0),
+        '/admin/workouts': (context) => const AdminMainScaffold(initialIndex: 1),
+        '/admin/progress': (context) => const AdminMainScaffold(initialIndex: 2),
+        '/admin/profile': (context) => const AdminMainScaffold(initialIndex: 3),
       },
     );
   }
